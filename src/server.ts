@@ -85,7 +85,7 @@ io.on('connection', (socket) => {
   
 
 
-const port = process.env.SERVER_PORT || 8000
+const port = process.env.SERVER_PORT || 3000
 
 server.listen(port, () => {
     console.log(`Server running on ${port}`)

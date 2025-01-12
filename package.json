@@ -1,10 +1,11 @@
 {
   "name": "jotitbackend",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "ts-node ./src/server.ts",
-    "dev": "nodemon"
+    "start": "node ./dist/server.ts",
+    "dev": "nodemon",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

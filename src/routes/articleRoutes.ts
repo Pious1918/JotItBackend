@@ -17,7 +17,6 @@ const articleService = new ArticleService(userRepo, articleRepo);
 const articleController = new ArticleController(articleService)
 const router = Router()
 
-// router.get('/userarticles', middleWare.authorize, articleController.getAllArticles);
 router.get('/getuserdetails', middleWare.authorize, articleController.getCurrentUser);
 router.get('/userPublished', middleWare.authorize, articleController.getuserPublishedStories);
 router.get('/userDraft', middleWare.authorize, articleController.getuserDraftStories);

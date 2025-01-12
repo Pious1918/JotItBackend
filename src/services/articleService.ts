@@ -11,21 +11,13 @@ import { IArticleRepository } from "../interfaces/articlerepo.interface";
 export class ArticleService implements IArticleService {
 
 
-    // private _articleRepository!: articleRepository
-    // private _userRepository!: userRepository
 
-    constructor(private _userRepository:IUserRepository , private _articleRepository:IArticleRepository) {
-        // this._articleRepository = new articleRepository()
-            // this._userRepository = new userRepository()
-    }
+
+    constructor(private _userRepository: IUserRepository, private _articleRepository: IArticleRepository) { }
 
     async getArticlesFromservice(page: number, limit: number) {
         try {
-
-
             const offset = (page - 1) * limit
-
-
             return await this._articleRepository.getAllArticles(limit, offset)
         } catch (error) {
 
@@ -58,7 +50,7 @@ export class ArticleService implements IArticleService {
 
     async getuserPublishedStories(userId: string): Promise<any[]> {
         try {
-            const visibility = "public"; // Set visibility to PRIVATE
+            const visibility = "public"; 
             return await this._articleRepository.getUserPublishedStories(userId, visibility);
         } catch (error) {
             console.error("Error in service layer:", error);
@@ -69,7 +61,7 @@ export class ArticleService implements IArticleService {
 
     async getuserDraftStories(userId: string): Promise<any[]> {
         try {
-            const visibility = "private"; // Set visibility to PRIVATE
+            const visibility = "private"; 
             return await this._articleRepository.getUserPublishedStories(userId, visibility);
         } catch (error) {
             console.error("Error in service layer:", error);
@@ -83,16 +75,14 @@ export class ArticleService implements IArticleService {
         try {
             return await this._userRepository.getCurrentUser(userId)
         } catch (error) {
-
+            console.error("Error in service layer:", error);
+            throw error;
         }
     }
 
     async loginUser(loginData: IUserdata) {
 
-        console.log("logindata@service", loginData)
-
         try {
-
 
             const existingUser = await this._userRepository.findbyEmail(loginData.email)
             if (!existingUser) {
@@ -101,9 +91,6 @@ export class ArticleService implements IArticleService {
             }
 
             const validpassword = await bcrypt.compare(loginData.password, existingUser.password)
-            console.log("Password match status:", validpassword);
-
-            console.log("yes both are same", validpassword)
 
             if (!validpassword) {
                 return { success: false, message: "Invalid Password" };
@@ -129,7 +116,6 @@ export class ArticleService implements IArticleService {
     async registerUser(userData: IUser) {
         try {
 
-            console.log("userdata @services", userData)
             const existingUser = await this._userRepository.findbyEmail(userData.email)
             if (existingUser) {
                 return { success: false, message: 'User Already exists' }
@@ -154,36 +140,29 @@ export class ArticleService implements IArticleService {
 
 
     async updateStoryById(storyid: string, content: string) {
-        console.log("content ")
         const story = await this._articleRepository.findArticlebyId(storyid);
-
         if (!story) {
             throw new Error('Story not found');
         }
-
-        // Update content with the new string value
         story.content = content;
         return await this._articleRepository.updateArticleById(storyid, content);
     }
 
 
     async updateDraftById(storyid: string, content: string) {
-        console.log("content ")
         const story = await this._articleRepository.findDraftbyId(storyid);
 
         if (!story) {
             throw new Error('Story not found');
         }
 
-        // Update content with the new string value
         story.content = content;
-        story.visibility = 'public'; // Set visibility to public
+        story.visibility = 'public'; 
 
         return await this._articleRepository.saveDraftById(storyid, content, 'public');
     }
 
 
-    // Method to update the profile image
     async updateProfilePicture(userId: string, s3Url: string): Promise<any> {
         try {
             const updatedUser = await this._userRepository.updateProfilePic(userId, { profileImage: s3Url });
@@ -192,6 +171,8 @@ export class ArticleService implements IArticleService {
             throw new Error('Error updating profile image');
         }
     }
+
+    
     async updateUsername(userId: string, name: string): Promise<any> {
         try {
             const updatedUser = await this._userRepository.updateName(userId, { name: name });

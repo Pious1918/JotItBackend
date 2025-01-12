@@ -48,18 +48,17 @@ export class articleRepository extends BaseRepository<any> {
         return this.save(userData)
     }
 
-    // Update article content by articleId
     async updateArticleById(storyid: string, content: string): Promise<any> {
         return await this.updateById(storyid, { content });
     }
 
 
-    async saveDraftById(storyid: string, content: string ,visibility:string): Promise<any> {
-        return await this.updateById(storyid, { content , visibility});
+    async saveDraftById(storyid: string, content: string, visibility: string): Promise<any> {
+        return await this.updateById(storyid, { content, visibility });
     }
 
 
-    async deleteStoryById(storyId:string){
+    async deleteStoryById(storyId: string) {
         return await this.deleteById(storyId)
     }
 

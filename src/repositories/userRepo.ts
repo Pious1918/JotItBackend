@@ -27,10 +27,10 @@ export class userRepository extends BaseRepository<any> {
     }
 
     async updateProfilePic(userId: string, updateData: { profileImage: string }) {
-        return this.updateById(userId, updateData); // Reuse the updateField method from BaseRepository
+        return this.updateById(userId, updateData); 
     }
 
     async updateName(userId: string, updateData: { name: string }) {
-        return this.updateById(userId, updateData); // Reuse the updateField method from BaseRepository
+        return this.updateById(userId, updateData); 
     }
 }

@@ -23,7 +23,6 @@ export class BaseRepository<T extends Document> {
         return this._model.findOne(filter)
     }
 
-    // Find a document by ID
     async findById(id: string): Promise<T | null> {
         return this._model.findById(id).exec();
     }
@@ -31,7 +30,6 @@ export class BaseRepository<T extends Document> {
         return this._model.findById(id).populate('userId', 'name profileImage').exec();
     }
 
-    // Find documents with custom filters
     async findByFilter(filter: FilterQuery<T>): Promise<T[]> {
         return this._model.find(filter).exec();
     }

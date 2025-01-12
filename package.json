@@ -1,7 +1,7 @@
 {
   "name": "jotitbackend",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "server.js",
   "scripts": {
     "start": "node ./dist/server.js",
     "dev": "nodemon",

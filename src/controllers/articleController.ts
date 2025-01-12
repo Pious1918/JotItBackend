@@ -1,32 +1,22 @@
 import { NextFunction, Request, Response, Router } from "express"
-
 import { ArticleService } from "../services/articleService";
 import { IUser, IUserdata } from "../interfaces/iuser.interface";
 import { generateToken } from "../utils/jwtHelper";
 import { generatepresigned } from "../utils/genPresigned";
 import IAuthRequest from "../middlewares/authMiddleware";
-import articleModel from "../models/articleModel";
+import { IArticleControllerInterface } from "../interfaces/article.controller.interface";
+import { IArticleService } from "../interfaces/article.service.interface";
 
-import mongoose from "mongoose";
 
 
-export class ArticleController {
+export class ArticleController implements IArticleControllerInterface{
 
-  private _articleService: ArticleService
+  // private _articleService: ArticleService
 
-  constructor() {
-    this._articleService = new ArticleService()
+  constructor(private _articleService:IArticleService) {
+    // this._articleService = new ArticleService()
   }
 
-  // public getAllArticles = async (req: Request, res: Response): Promise<void> => {
-  //   try {
-  //     const articles = await this._articleService.getArticlesFromservices();
-  //     res.json({ success: true, data: articles });
-  //   } catch (error) {
-  //     console.error("Error fetching articles:", error);
-  //     res.status(500).json({ success: false, message: "Internal Server Error" });
-  //   }
-  // };
 
   public getCurrentUser = async (req: IAuthRequest, res: Response): Promise<void> => {
     try {

@@ -3,17 +3,20 @@ import { articleRepository } from "../repositories/articleRepo";
 import bcrypt from 'bcryptjs'
 import { userRepository } from "../repositories/userRepo";
 import { visibility } from "../enums/articlevisibility.enum";
+import { IArticleService } from "../interfaces/article.service.interface";
+import { IUserRepository } from "../interfaces/article.userreop.interface";
+import { IArticleRepository } from "../interfaces/articlerepo.interface";
 
 
-export class ArticleService {
+export class ArticleService implements IArticleService {
 
 
-    private _articleRepository!: articleRepository
-    private _userRepository!: userRepository
+    // private _articleRepository!: articleRepository
+    // private _userRepository!: userRepository
 
-    constructor() {
-        this._articleRepository = new articleRepository(),
-            this._userRepository = new userRepository()
+    constructor(private _userRepository:IUserRepository , private _articleRepository:IArticleRepository) {
+        // this._articleRepository = new articleRepository()
+            // this._userRepository = new userRepository()
     }
 
     async getArticlesFromservice(page: number, limit: number) {
@@ -26,6 +29,7 @@ export class ArticleService {
             return await this._articleRepository.getAllArticles(limit, offset)
         } catch (error) {
 
+            throw error
         }
     }
 
@@ -200,7 +204,7 @@ export class ArticleService {
 
 
     public async deleteStoryById(storyId: string): Promise<void> {
-        const story = await this._articleRepository.findById(storyId);
+        const story = await this._articleRepository.deleteStoryById(storyId);
 
         if (!story) {
             throw new Error(`Story with ID ${storyId} not found`);

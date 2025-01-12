@@ -2,11 +2,19 @@ import {NextFunction , Request, Response , Router} from "express"
 import express from 'express'
 import { ArticleController } from "../controllers/articleController"
 import { Middleware } from "../middlewares/authMiddleware"
+import { ArticleService } from "../services/articleService"
+import { userRepository } from "../repositories/userRepo"
+import { articleRepository } from "../repositories/articleRepo"
 
 const middleWare = new Middleware()
 
 
-const articleController = new ArticleController()
+const userRepo = new userRepository(); 
+const articleRepo = new articleRepository();
+
+const articleService = new ArticleService(userRepo, articleRepo);
+
+const articleController = new ArticleController(articleService)
 const router = Router()
 
 // router.get('/userarticles', middleWare.authorize, articleController.getAllArticles);
